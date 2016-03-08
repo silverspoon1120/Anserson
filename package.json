@@ -1,6 +1,6 @@
 {
   "name": "react-formio",
-  "version": "0.2.0",
+  "version": "0.1.1",
   "description": "React rendering library for form.io embedded forms.",
   "main": "dist/build/Formio.js",
   "scripts": {
@@ -27,7 +27,6 @@
     "react": "global:React"
   },
   "dependencies": {
-    "babel-standalone": "^6.4.4",
     "formiojs": "git+https://github.com/formio/formio.js.git",
     "moment": "^2.10.6",
     "react": "^0.13.3",
