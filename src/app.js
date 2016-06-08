@@ -1,6 +1,5 @@
 
 var React = require('react');
-var ReactDOM = require('react-dom');
 var Formio = require('./Formio');
 
 var Demo = React.createClass({
@@ -54,7 +53,7 @@ var Demo = React.createClass({
   }
 });
 
-ReactDOM.render(
+React.render(
   <Demo />
   , document.getElementById('formio')
 );
