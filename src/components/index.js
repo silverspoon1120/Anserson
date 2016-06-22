@@ -7,7 +7,6 @@ FormioComponents.checkbox = require('./checkbox');
 FormioComponents.columns = require('./columns');
 FormioComponents.content = require('./content');
 FormioComponents.custom = require('./custom');
-FormioComponents.datagrid = require('./datagrid');
 //FormioComponents.datetime = require('./datetime');
 FormioComponents.email = require('./email');
 FormioComponents.fieldset = require('./fieldset');
