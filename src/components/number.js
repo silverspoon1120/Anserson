@@ -5,6 +5,9 @@ var multiMixin = require('./mixins/multiMixin');
 module.exports = React.createClass({
   displayName: 'Number',
   mixins: [valueMixin, multiMixin],
+  getInitialValue: function() {
+    return 0;
+  },
   getSingleElement: function(value, index) {
     index = index || 0;
     value = value || 0;

@@ -9,6 +9,9 @@ momentLocalizer(moment);
 module.exports = React.createClass({
   displayName: 'Datetime',
   mixins: [valueMixin, multiMixin],
+  getInitialValue: function() {
+    return null;
+  },
   onChangeDatetime: function(index, value, str) {
     this.setValue(value, index);
   },
