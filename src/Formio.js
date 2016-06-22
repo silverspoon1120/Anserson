@@ -157,22 +157,6 @@ module.exports = React.createClass({
       }
     }
   },
-  handleConditionalHideNShow: function(elementConditionalValue) {
-  if (elementConditionalValue) {
-      return true;
-    } else {
-      return false;
-   }
-  },
-  handleConditional: function (e) {
-  if (document.getElementById(e.props.component.conditional.when)) {
-    if ((document.getElementById(e.props.component.conditional.when).value )?
-            (document.getElementById(e.props.component.conditional.when).value === e.props.component.conditional.eq) : false) {
-       return this.handleConditionalHideNShow(e.props.component.conditional.show === 'true'? true : false);
-      }
-      return this.handleConditionalHideNShow(e.props.component.conditional.show === 'true'?  false : true);
-    }
-  },
   updateData: function(component) {
     Object.keys(this.inputs).forEach(function (name) {
       this.data[name] = this.inputs[name].state.value;
@@ -294,7 +278,6 @@ module.exports = React.createClass({
             resetForm={this.resetForm}
             formio={this.formio}
             showAlert={this.showAlert}
-            handleConditional={this.handleConditional}
           />
         );
       }.bind(this));

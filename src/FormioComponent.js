@@ -18,7 +18,6 @@ module.exports = React.createClass({
     if (typeof this.props.onElementRender === 'function') {
       this.props.onElementRender(this.props.component);
     }
-    if ((document.getElementById(this.props.component.conditional.when) != null) ? this.props.handleConditional(this) : true) {
     return (
       <div className={className}>
         <FormioElement
@@ -27,8 +26,5 @@ module.exports = React.createClass({
           />
       </div>
     );
-    } else {
-      return null;
-    }
   }
 });
