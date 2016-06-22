@@ -1,3 +1,5 @@
+'use strict'
+
 var React = require('react');
 
 module.exports = React.createClass({
@@ -12,10 +14,11 @@ module.exports = React.createClass({
       FormioElement = FormioComponents['custom'];
     }
     //console.log(this.props.component.type);
-    var className = 'form-group has-feedback form-field-type-' + this.props.component.type;
+    var className = "form-group has-feedback form-field-type-" + this.props.component.type;
     if (typeof this.props.onElementRender === 'function') {
       this.props.onElementRender(this.props.component);
     }
+    if ((document.getElementById(this.props.component.conditional.when) != null) ? this.props.handleConditional(this) : true) {
     return (
       <div className={className}>
         <FormioElement
@@ -24,5 +27,8 @@ module.exports = React.createClass({
           />
       </div>
     );
+    } else {
+      return null;
+    }
   }
 });

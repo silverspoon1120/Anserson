@@ -1,3 +1,5 @@
+'use strict'
+
 var React = require('react');
 var componentMixin = require('./mixins/componentMixin');
 var SignaturePad = require('react-signature-pad');
@@ -25,18 +27,18 @@ module.exports = React.createClass({
     });
   },
   getElements: function() {
-    var footerStyle = {textAlign: 'center', color:'#C3C3C3'};
-    var footerClass = 'formio-signature-footer' + (this.props.component.validate.required ? ' required' : '');
+    var footerStyle = {textAlign: "center", color:"#C3C3C3"};
+    var footerClass = "formio-signature-footer" + (this.props.component.validate.required ? ' required' : '');
     var styles = {
       height: this.props.component.height,
-      width: this.props.component.width
-    };
-    return (
+      width: this.props.component.width,
+    }
+    return(
       <div>
         <div style={styles}>
           <SignaturePad
             ref={this.props.component.key}
-            clearButton='true'
+            clearButton="true"
             {...this.props.component}
             onEnd={this.onEnd}
             />

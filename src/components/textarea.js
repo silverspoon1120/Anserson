@@ -1,3 +1,5 @@
+'use strict'
+
 var React = require('react');
 var componentMixin = require('./mixins/componentMixin');
 var multiMixin = require('./mixins/multiMixin');
@@ -7,7 +9,7 @@ module.exports = React.createClass({
   mixins: [componentMixin, multiMixin],
   getSingleElement: function(value, index) {
     index = index || 0;
-    return (
+    return(
       <textarea
         className="form-control"
         key={index}

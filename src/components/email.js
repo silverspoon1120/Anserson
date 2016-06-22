@@ -1,3 +1,5 @@
+'use strict'
+
 var React = require('react');
 var componentMixin = require('./mixins/componentMixin');
 var multiMixin = require('./mixins/multiMixin');

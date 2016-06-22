@@ -1,12 +1,13 @@
+
 var React = require('react');
 var DropdownList = require('react-widgets/lib/DropdownList');
 var Multiselect = require('react-widgets/lib/Multiselect');
 
-function defineTransformerOutsideStrictMode() {
+function defineTransformerOutsideStrictMode () {
     var safeGlobalName = '____formioSelectMixinGetTransformer';
     var globalObject = typeof window !== 'undefined'
                             ? window
-                            : typeof global !== 'undefined'
+                            : typeof global !== "undefined"
                                 ? global
                                 : {};
 
@@ -15,7 +16,7 @@ function defineTransformerOutsideStrictMode() {
      *
      * //string-replace callback, called for every match in the template.
      * function transform (_, expression) {
-     *  //bring the properties of 'props' into local scope so that the expression can reference them
+     *  //bring the properties of "props" into local scope so that the expression can reference them
      *  with (props) {
      *    return eval(expression); //evaluate the expression.
      *  }
@@ -40,7 +41,7 @@ module.exports = {
     return {
       selectItems: [],
       searchTerm: ''
-    };
+    }
   },
   valueField: function() {
     var valueField = this.props.component.valueProperty || 'value';
@@ -60,9 +61,9 @@ module.exports = {
     if (Array.isArray(value) && this.valueField()) {
       value.forEach(function(val, index) {
         value[index] = val[this.valueField()];
-      }.bind(this));
+      }.bind(this))
     }
-    else if (typeof value === 'object' && this.valueField()) {
+    else if (typeof value === "object" && this.valueField()) {
       value = value[this.valueField()];
     }
     this.setValue(value);
@@ -82,12 +83,12 @@ module.exports = {
     }
 
     //helper function to render raw html under a react element.
-    function raw(html) {
+    function raw (html) {
       return {dangerouslySetInnerHTML: {__html: html}};
     }
 
     return React.createClass({
-      render: function() {
+      render: function () {
         var props = this.props;
 
         var transform = getTransformer(props);
@@ -105,9 +106,9 @@ module.exports = {
   },
   getElements: function() {
     var Element = (this.props.component.multiple ? Multiselect : DropdownList);
-    var classLabel = 'control-label' + ( this.props.component.validate && this.props.component.validate.required ? ' field-required' : '');
+    var classLabel = "control-label" + ( this.props.component.validate && this.props.component.validate.required ? ' field-required' : '');
     var inputLabel = (this.props.component.label && !this.props.component.hideLabel ? <label htmlFor={this.props.component.key} className={classLabel}>{this.props.component.label}</label> : '');
-    var requiredInline = (!this.props.component.label && this.props.component.validate && this.props.component.validate.required ? <span className='glyphicon glyphicon-asterisk form-control-feedback field-required-inline' aria-hidden='true'></span> : '');
+    var requiredInline = (!this.props.component.label && this.props.component.validate && this.props.component.validate.required ? <span className="glyphicon glyphicon-asterisk form-control-feedback field-required-inline" aria-hidden="true"></span> : '');
     var className = (this.props.component.prefix || this.props.component.suffix ? 'input-group' : '');
     var filter;
     if (typeof this.doSearch === 'function') {
@@ -118,7 +119,7 @@ module.exports = {
     else {
       filter = 'contains';
     }
-    return (
+    return(
       <div>
         {inputLabel} {requiredInline}
         <div className={className}>
