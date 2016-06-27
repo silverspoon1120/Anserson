@@ -1,16 +1,13 @@
 var React = require('react');
 var Formiojs = require('formiojs');
 var FormioComponent = require('./FormioComponent.jsx');
-var _ = require('lodash');
+var debounce = require('lodash/debounce');
 
 require('./components');
 
 module.exports = React.createClass({
   displayName: 'Formio',
   getInitialState: function() {
-    if (this.props.submission && this.props.submission.data) {
-      this.data = _.clone(this.props.submission.data);
-    }
     return {
       form: this.props.form || {},
       submission: this.props.submission || {},
@@ -28,7 +25,7 @@ module.exports = React.createClass({
     };
   },
   componentWillMount: function() {
-    this.data = this.data || {};
+    this.data = {};
     this.inputs = {};
   },
   attachToForm: function(component) {
@@ -46,7 +43,7 @@ module.exports = React.createClass({
       this.props.onChange({data: this.data});
     }
   },
-  validate: _.debounce(function(component) {
+  validate: debounce(function(component) {
     var state = {
       isValid: true,
       errorMessage: ''
@@ -147,7 +144,6 @@ module.exports = React.createClass({
           if (typeof this.props.onSubmissionLoad === 'function') {
             this.props.onSubmissionLoad(submission);
           }
-          this.data = _.clone(submission.data);
           this.setState({
             submission: submission
           }, this.validateForm);
@@ -168,7 +164,7 @@ module.exports = React.createClass({
       isSubmitting: true
     });
     var sub = this.state.submission;
-    sub.data = _.clone(this.data);
+    sub.data = this.data;
 
     var request;
     var method;
@@ -237,7 +233,7 @@ module.exports = React.createClass({
   render: function() {
     if (this.state.form.components) {
       this.componentNodes = this.state.form.components.map(function(component, index) {
-        var value = (this.data && this.data.hasOwnProperty(component.key) ? this.data[component.key] : component.defaultValue || '');
+        var value = (this.state.submission.data && this.state.submission.data.hasOwnProperty(component.key) ? this.state.submission.data[component.key] : component.defaultValue || '');
         var key = component.key || component.type + index;
         return (
           <FormioComponent
