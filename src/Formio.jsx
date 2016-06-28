@@ -43,7 +43,7 @@ module.exports = React.createClass({
     this.data[component.props.component.key] = component.state.value;
     this.validate(component);
     if (typeof this.props.onChange === 'function') {
-      this.props.onChange({data: this.data});
+      this.props.onChange({data: this.data}, component.props.component.key, component.state.value);
     }
   },
   validate: _.debounce(function(component) {
@@ -158,12 +158,11 @@ module.exports = React.createClass({
   handleConditionalHideNShow: function(elementConditionalValue) {
   if (elementConditionalValue) {
       return true;
-    }
-  else {
+    } else {
       return false;
    }
   },
-  checkConditional: function(component) {
+  checkConditional: function (component) {
     if (component.props.component.conditional && component.props.component.conditional.when) {
       var value = (this.data.hasOwnProperty(component.props.component.conditional.when) ? this.data[component.props.component.conditional.when] : '');
       return (value.toString() === component.props.component.conditional.eq.toString()) === (component.props.component.conditional.show.toString() === 'true');
