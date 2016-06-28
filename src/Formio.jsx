@@ -1,13 +1,16 @@
 var React = require('react');
 var Formiojs = require('formiojs');
 var FormioComponent = require('./FormioComponent.jsx');
-var debounce = require('lodash/debounce');
+var _ = require('lodash');
 
 require('./components');
 
 module.exports = React.createClass({
   displayName: 'Formio',
   getInitialState: function() {
+    if (this.props.submission && this.props.submission.data) {
+      this.data = _.clone(this.props.submission.data);
+    }
     return {
       form: this.props.form || {},
       submission: this.props.submission || {},
@@ -25,7 +28,7 @@ module.exports = React.createClass({
     };
   },
   componentWillMount: function() {
-    this.data = {};
+    this.data = this.data || {};
     this.inputs = {};
   },
   attachToForm: function(component) {
@@ -43,7 +46,7 @@ module.exports = React.createClass({
       this.props.onChange({data: this.data});
     }
   },
-  validate: debounce(function(component) {
+  validate: _.debounce(function(component) {
     var state = {
       isValid: true,
       errorMessage: ''
@@ -144,11 +147,41 @@ module.exports = React.createClass({
           if (typeof this.props.onSubmissionLoad === 'function') {
             this.props.onSubmissionLoad(submission);
           }
+          this.data = _.clone(submission.data);
           this.setState({
             submission: submission
           }, this.validateForm);
         }.bind(this));
       }
+    }
+  },
+  handleConditionalHideNShow: function(elementConditionalValue) {
+  if (elementConditionalValue) {
+      return true;
+    } else {
+      return false;
+   }
+  },
+  checkConditional: function (component) {
+    if (component.props.component.conditional && component.props.component.conditional.when) {
+      var value = (this.data.hasOwnProperty(component.props.component.conditional.when) ? this.data[component.props.component.conditional.when] : '');
+      return (value.toString() === component.props.component.conditional.eq.toString()) === (component.props.component.conditional.show.toString() === 'true');
+    }
+    else if (component.props.component.customConditional) {
+      try {
+        // Create a child block, and expose the submission data.
+        var data = this.data; // eslint-disable-line no-unused-vars
+        // Eval the custom conditional and update the show value.
+        var show = eval('(function() { ' + component.props.component.customConditional.toString() + '; return show; })()');
+        // Show by default, if an invalid type is given.
+        return show.toString() === 'true';
+      }
+      catch (e) {
+        return true;
+      }
+    }
+    else {
+      return true;
     }
   },
   showAlert: function(type, message) {
@@ -164,7 +197,7 @@ module.exports = React.createClass({
       isSubmitting: true
     });
     var sub = this.state.submission;
-    sub.data = this.data;
+    sub.data = _.clone(this.data);
 
     var request;
     var method;
@@ -233,7 +266,7 @@ module.exports = React.createClass({
   render: function() {
     if (this.state.form.components) {
       this.componentNodes = this.state.form.components.map(function(component, index) {
-        var value = (this.state.submission.data && this.state.submission.data.hasOwnProperty(component.key) ? this.state.submission.data[component.key] : component.defaultValue || '');
+        var value = (this.data && this.data.hasOwnProperty(component.key) ? this.data[component.key] : component.defaultValue || '');
         var key = component.key || component.type + index;
         return (
           <FormioComponent
@@ -252,6 +285,7 @@ module.exports = React.createClass({
             resetForm={this.resetForm}
             formio={this.formio}
             showAlert={this.showAlert}
+            checkConditional={this.checkConditional}
           />
         );
       }.bind(this));
