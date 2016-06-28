@@ -12,7 +12,7 @@ module.exports = {
         value = '';
       }
     }
-    if (this.props.component.type !== 'datagrid') {
+    if ((this.props.component.type !== 'datagrid') && (this.props.component.type !== 'container')) {
       value = this.safeSingleToMultiple(value);
     }
     return {
@@ -87,10 +87,6 @@ module.exports = {
     );
   },
   render: function() {
-    var element = this.getComponent();
-    if (typeof this.props.onElementRender === 'function') {
-      element = this.props.onElementRender(this, element);
-    }
-    return element;
+    return this.getComponent();
   }
 };
