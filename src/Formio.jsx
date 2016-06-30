@@ -40,12 +40,7 @@ module.exports = React.createClass({
     delete this.data[component.props.name];
   },
   onChange: function(component) {
-    if (component.state.value === null) {
-      delete this.data[component.props.component.key];
-    }
-    else {
-      this.data[component.props.component.key] = component.state.value;
-    }
+    this.data[component.props.component.key] = component.state.value;
     this.validate(component);
     if (typeof this.props.onChange === 'function') {
       this.props.onChange({data: this.data}, component.props.component.key, component.state.value);
