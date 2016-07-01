@@ -26,6 +26,7 @@ module.exports = {
     var classLabel = 'control-label' + ( this.props.component.validate && this.props.component.validate.required ? ' field-required' : '');
     var inputLabel = (this.props.component.label && !this.props.component.hideLabel ? <label htmlFor={this.props.component.key} className={classLabel}>{this.props.component.label}</label> : '');
     var requiredInline = (!this.props.component.label && this.props.component.validate && this.props.component.validate.required ? <span className='glyphicon glyphicon-asterisk form-control-feedback field-required-inline' aria-hidden='true'></span> : '');
+    var className = (this.props.component.prefix || this.props.component.suffix ? 'input-group' : '');
     var prefix = (this.props.component.prefix ? <div className='input-group-addon'>{this.props.component.prefix}</div> : '');
     var suffix = (this.props.component.suffix ? <div className='input-group-addon'>{this.props.component.suffix}</div> : '');
     var data = this.state.value;
@@ -35,7 +36,7 @@ module.exports = {
         return (
           <tr key={id}>
             <td>{requiredInline}
-              <div className='input-group'>
+              <div className={className}>
                 {prefix} {Element} {suffix}
               </div>
             </td>
@@ -46,7 +47,7 @@ module.exports = {
         );
       }.bind(this));
       Component =
-        <div className='formio-component-multiple'>
+        <div>
           {inputLabel}
           <table className='table table-bordered'>
             <tbody>
@@ -63,9 +64,9 @@ module.exports = {
     else {
       var Element = this.getSingleElement(data);
       Component =
-        <div className='formio-component-single'>
+        <div>
           {inputLabel} {requiredInline}
-          <div className='input-group'>
+          <div className={className}>
             {prefix} {Element} {suffix}
           </div>
         </div>;
