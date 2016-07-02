@@ -11,17 +11,15 @@ module.exports = React.createClass({
     else {
       FormioElement = FormioComponents['custom'];
     }
-    var className = 'form-group has-feedback form-field-type-' + this.props.component.type;
     if (this.props.checkConditional(this)) {
       return (
-        <div className={className}>
-          <FormioElement
-            name={this.props.component.key}
-            {...this.props}
-            />
-        </div>
+        <FormioElement
+          name={this.props.component.key}
+          {...this.props}
+        />
       );
-    } else {
+    }
+    else {
       return null;
     }
   }
