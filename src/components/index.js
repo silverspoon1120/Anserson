@@ -20,7 +20,6 @@ FormioComponents.password = require('./password.jsx');
 FormioComponents.phoneNumber = require('./phoneNumber.jsx');
 FormioComponents.radio = require('./radio.jsx');
 //FormioComponents.resource = require('./resource.jsx');
-FormioComponents.survey = require('./survey.jsx');
 FormioComponents.select = require('./select.jsx');
 FormioComponents.signature = require('./signature.jsx');
 FormioComponents.table = require('./table.jsx');
