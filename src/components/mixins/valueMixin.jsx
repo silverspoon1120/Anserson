@@ -53,10 +53,6 @@ module.exports = {
   },
   onChange: function(event) {
     var value = event.currentTarget.value;
-    // Allow components to respond to onChange event.
-    if (typeof this.onChangeCustom === 'function') {
-      value = this.onChangeCustom(value);
-    }
     var index = (this.props.component.multiple ? event.currentTarget.getAttribute('data-index') : null);
     this.setValue(value, index);
   },
@@ -77,13 +73,15 @@ module.exports = {
     }.bind(this));
   },
   getComponent: function() {
+    var classNames = 'form-group has-feedback form-field-type-' + this.props.component.type + (this.state.errorMessage !== '' && !this.state.isPristine ? ' has-error': '');
     var id = 'form-group-' + this.props.component.key;
-    var classNames = 'form-group form-field-type-' + this.props.component.type + ' ' + id + (this.state.errorMessage !== '' && !this.state.isPristine ? ' has-error': '');
     var Elements = this.getElements();
     var Error = (this.state.errorMessage && !this.state.isPristine ? <p className='help-block'>{this.state.errorMessage}</p> : '');
     return (
       <div className={classNames} id={id}>
-        {Elements}
+        <div>
+          {Elements}
+        </div>
         {Error}
       </div>
     );
