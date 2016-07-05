@@ -71,7 +71,7 @@ module.exports = {
     this.setState({
       searchTerm: text
     });
-    if (typeof this.doSearch === 'function' && text) {
+    if (typeof this.doSearch === 'function') {
       this.doSearch(text);
     }
   },
