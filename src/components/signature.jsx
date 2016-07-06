@@ -1,5 +1,5 @@
 var React = require('react');
-var valueMixin = require('./mixins/valueMixin.jsx');
+var valueMixin = require('./mixins/valueMixin');
 var SignaturePad = require('react-signature-pad');
 
 module.exports = React.createClass({
@@ -9,7 +9,6 @@ module.exports = React.createClass({
     this.setState({
       value: this.signature.toDataURL()
     });
-    this.props.onChange(this);
   },
   componentDidMount: function() {
     this.signature = this.refs[this.props.component.key];
@@ -17,27 +16,30 @@ module.exports = React.createClass({
       this.signature.fromDataURL(this.state.value);
     }
   },
-  clearSignature: function(ref) {
-    var signature = this.refs[ref];
-    signature.clear();
+  componentWillReceiveProps: function(nextProps) {
+    if (nextProps.value) {
+      this.signature.fromDataURL(nextProps.value);
+    }
+    this.setState({
+      value: nextProps.value
+    });
   },
   getElements: function() {
     var footerStyle = {textAlign: 'center', color:'#C3C3C3'};
     var footerClass = 'formio-signature-footer' + (this.props.component.validate.required ? ' required' : '');
-    var ref = this.props.component.key;
     var styles = {
-      height: 'auto',
+      height: this.props.component.height,
       width: this.props.component.width
     };
     return (
       <div>
-        <span className=" glyphicon glyphicon-refresh"  onClick={this.clearSignature.bind(null, ref)}/>
         <div style={styles}>
           <SignaturePad
             ref={this.props.component.key}
+            clearButton='true'
             {...this.props.component}
             onEnd={this.onEnd}
-          />
+            />
         </div>
         <div className={footerClass} style={footerStyle}>{this.props.component.footer}</div>
       </div>
