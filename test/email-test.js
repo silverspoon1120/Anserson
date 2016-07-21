@@ -2,56 +2,56 @@
 import React from 'react';
 import { expect } from 'chai';
 import { shallow, mount, render } from 'enzyme';
-import PhoneNumber from '../src/components/phoneNumber.jsx';
+import Email from '../src/components/email.jsx';
 import sinon from 'sinon';
+
 import form from './forms/empty.json';
 
-describe('phoneNumber', function () {
-  describe('Single phoneNumber', function () {
+describe('Email', function () {
+  describe('Single email', function () {
     var component= {
+      "validate": {
+        "required": false
+      },
       "conditional": {
         "eq": "",
         "when": null,
         "show": ""
       },
-      "type": "phoneNumber",
-      "validate": {
-        "required": false
-      },
-      "defaultValue": "",
+      "type": "email",
       "persistent": true,
-      "unique": false,
+      "unique": true,
       "protected": false,
-      "multiple": false,
+      "defaultValue": "",
       "suffix": "",
       "prefix": "",
       "placeholder": "",
-      "key": "phoneNumber",
-      "label": "Phone Number",
-      "inputMask": "(999) 999-9999",
+      "key": "email",
+      "label": "my email",
+      "inputType": "email",
       "tableView": true,
       "input": true
     };
 
     var attachToForm = sinon.spy();
-    it('Renders a basic phoneNumber', function (done) {
+    it('Renders a basic email', function (done) {
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       ).children().eq(0);
       expect(element).to.have.length(1);
-      expect(element.hasClass('form-group form-field-type-phoneNumber form-group-phoneNumber')).to.equal(true);
-      expect(element.attr('id')).to.equal('form-group-phoneNumber');
+      expect(element.hasClass('form-group form-field-type-email form-group-email')).to.equal(true);
+      expect(element.attr('id')).to.equal('form-group-email');
       expect(element.find('.formio-component-single').length).to.equal(1);
       expect(element.find('.formio-component-single label').length).to.equal(1);
-      expect(element.find('.formio-component-single label').html()).to.equal('Phone Number');
-      expect(element.find('.formio-component-single label').attr('for')).to.equal('phoneNumber');
+      expect(element.find('.formio-component-single label').html()).to.equal('my email');
+      expect(element.find('.formio-component-single label').attr('for')).to.equal('email');
       expect(element.find('.formio-component-single .input-group').length).to.equal(1);
       expect(element.find('.formio-component-single .input-group input').length).to.equal(1);
       expect(element.find('.formio-component-single .input-group input').attr('class')).to.equal('form-control');
-      expect(element.find('.formio-component-single .input-group input').attr('id')).to.equal('phoneNumber');
+      expect(element.find('.formio-component-single .input-group input').attr('id')).to.equal('email');
       expect(element.find('.formio-component-single .input-group input').attr('data-index')).to.equal('0');
       expect(element.find('.formio-component-single .input-group input').attr('value')).to.equal('');
       expect(element.find('.formio-component-single .input-group input').attr('placeholder')).to.equal('');
@@ -61,11 +61,11 @@ describe('phoneNumber', function () {
     it('Fills in the placeholder value', function(done) {
       component.placeholder = 'Test Placeholder';
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
-      ).find('input#phoneNumber');
+        ></Email>
+      ).find('input#email');
       expect(element.attr('placeholder')).to.equal('Test Placeholder');
       component.placeholder = '';
       done();
@@ -74,10 +74,10 @@ describe('phoneNumber', function () {
     it('Renders with a prefix', function(done) {
       component.prefix = '$';
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       ).find('.input-group');
       expect(element.children().length).to.equal(2);
       expect(element.children().eq(0).hasClass('input-group-addon')).to.equal(true);
@@ -89,10 +89,10 @@ describe('phoneNumber', function () {
     it('Renders with a suffix', function(done) {
       component.suffix = 'Pounds';
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       ).find('.input-group');
       expect(element.children().length).to.equal(2);
       expect(element.children().eq(1).hasClass('input-group-addon')).to.equal(true);
@@ -105,10 +105,10 @@ describe('phoneNumber', function () {
       component.prefix = 'Prefix';
       component.suffix = 'Suffix';
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       ).find('.input-group');
       expect(element.children().length).to.equal(3);
       expect(element.children().eq(0).hasClass('input-group-addon')).to.equal(true);
@@ -122,59 +122,47 @@ describe('phoneNumber', function () {
 
     it('Sets a default value', function(done) {
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
-      value='(919) 999-9999'
+      value='testEmail@test.com'
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       ).find('input');
-      expect(element.attr('value')).to.equal('(919) 999-9999');
+      expect(element.attr('value')).to.equal('testEmail@test.com');
       done();
     });
 
-    it('Sets a invalid input for single phoneNumber', function(done) {
-      const element = render(
-        <PhoneNumber
-      component={component}
-      value='999a'
-      attachToForm={attachToForm}
-        ></PhoneNumber>
-      ).find('input');
-      expect(element.attr('value')).to.equal('(999) ___-____');
-      done();
-    });
-
-    it('Check single phoneNumber with required', function(done) {
+    it('Check single email with required', function(done) {
       component.validate.required = true;
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       );
       expect(element.find('.formio-component-single label ').attr('class')).to.equal('control-label field-required');
       done();
     });
 
-    it('Check single phoneNumber without required', function(done) {
+    it('Check single email without required', function(done) {
       component.validate.required = false;
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       );
       expect(element.find('.formio-component-single label ').attr('class')).to.equal('control-label');
       done();
     });
 
-    it('Check single phoneNumber without label', function(done) {
+    it('Check single email without label', function(done) {
       component.label = '';
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       );
       expect(element.find('.formio-component-single label').length).to.equal(0);
       done();
@@ -182,55 +170,55 @@ describe('phoneNumber', function () {
 
   });
 
-  describe('Multiple phoneNumber', function() {
+  describe('Multiple email', function() {
     var component = {
-      "input": true,
-      "tableView": true,
-      "inputMask": "(999) 999-9999",
-      "label": "Phone Number",
-      "key": "phoneNumber",
-      "placeholder": "",
-      "prefix": "",
-      "suffix": "",
       "multiple": true,
-      "protected": false,
-      "unique": false,
-      "persistent": true,
-      "defaultValue": "",
       "validate": {
-        "required": false
+        "required": true
       },
-      "type": "phoneNumber",
       "conditional": {
-        "show": "",
+        "eq": "",
         "when": null,
-        "eq": ""
-      }
+        "show": ""
+      },
+      "type": "email",
+      "persistent": true,
+      "unique": true,
+      "protected": false,
+      "defaultValue": "",
+      "suffix": "",
+      "prefix": "",
+      "placeholder": "",
+      "key": "email",
+      "label": "my email",
+      "inputType": "email",
+      "tableView": true,
+      "input": true
     };
     var attachToForm = sinon.spy();
-    it('Renders a multi-value phoneNumber', function(done) {
+    it('Renders a multi-value email', function(done) {
       const element = render(
-        <PhoneNumber
-      name="phoneNumber"
+        <Email
+      name="email"
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
-      ).find('.form-field-type-phoneNumber');
+        ></Email>
+      ).find('.form-field-type-email');
       expect(element).to.have.length(1);
-      expect(element.hasClass('form-group form-field-type-phoneNumber form-group-phoneNumber')).to.equal(true);
-      expect(element.attr('id')).to.equal('form-group-phoneNumber');
+      expect(element.hasClass('form-group form-field-type-email form-group-email')).to.equal(true);
+      expect(element.attr('id')).to.equal('form-group-email');
       expect(element.children().eq(0).hasClass('formio-component-multiple')).to.equal(true);
-      expect(element.children().eq(0).children().eq(0).attr('for')).to.equal('phoneNumber');
+      expect(element.children().eq(0).children().eq(0).attr('for')).to.equal('email');
       expect(element.children().eq(0).children().eq(0).hasClass('control-label')).to.equal(true);
-      expect(element.children().eq(0).children().eq(0).text()).to.equal('Phone Number');
+      expect(element.children().eq(0).children().eq(0).text()).to.equal('my email');
       const table = element.children().eq(0).children().eq(1);
       expect(table.hasClass('table table-bordered')).to.equal(true);
       expect(table.find('tr').length).to.equal(2);
       expect(table.find('tr td div.input-group').length).to.equal(1);
       expect(table.find('tr td div.input-group input').attr('placeholder')).to.equal('');
       expect(table.find('tr td div.input-group input').attr('value')).to.equal('');
-      expect(table.find('tr td div.input-group input').attr('id')).to.equal('phoneNumber');
-      expect(table.find('tr td div.input-group input').attr('name')).to.equal('phoneNumber');
+      expect(table.find('tr td div.input-group input').attr('id')).to.equal('email');
+      expect(table.find('tr td div.input-group input').attr('name')).to.equal('email');
       expect(table.find('tr td div.input-group input').attr('class')).to.equal('form-control');
       expect(table.find('tr td div.input-group input').attr('data-index')).to.equal('0');
       done();
@@ -239,12 +227,12 @@ describe('phoneNumber', function () {
     it('Fills in the placeholder value', function(done) {
       component.placeholder = 'My Placeholder';
       const element = render(
-        <PhoneNumber
-      name="phoneNumber"
+        <Email
+      name="email"
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
-      ).find('input#phoneNumber');
+        ></Email>
+      ).find('input#email');
       expect(element.attr('placeholder')).to.equal('My Placeholder');
       component.placeholder = '';
       done();
@@ -253,11 +241,11 @@ describe('phoneNumber', function () {
     it('Renders with a prefix', function(done) {
       component.prefix = '$';
       const element = render(
-        <PhoneNumber
-      name="phoneNumber"
+        <Email
+      name="email"
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       ).find('.input-group');
       expect(element.children().length).to.equal(2);
       expect(element.children().eq(0).hasClass('input-group-addon')).to.equal(true);
@@ -269,11 +257,11 @@ describe('phoneNumber', function () {
     it('Renders with a suffix', function(done) {
       component.suffix = 'Pounds';
       const element = render(
-        <PhoneNumber
-      name="phoneNumber"
+        <Email
+      name="email"
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       ).find('.input-group');
       expect(element.children().length).to.equal(2);
       expect(element.children().eq(1).hasClass('input-group-addon')).to.equal(true);
@@ -286,11 +274,11 @@ describe('phoneNumber', function () {
       component.prefix = 'Prefix';
       component.suffix = 'Suffix';
       const element = render(
-        <PhoneNumber
-      name="phoneNumber"
+        <Email
+      name="email"
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       ).find('.input-group');
       expect(element.children().length).to.equal(3);
       expect(element.children().eq(0).hasClass('input-group-addon')).to.equal(true);
@@ -302,40 +290,14 @@ describe('phoneNumber', function () {
       done();
     });
 
-    it('Sets a default value', function(done) {
-      const element = render(
-        <PhoneNumber
-      name="phoneNumber"
-      value="(919) 999-9999"
-      component={component}
-      attachToForm={attachToForm}
-        ></PhoneNumber>
-      ).find('input');
-      expect(element.attr('value')).to.equal('(919) 999-9999');
-      done();
-    });
-
-    it('Sets a invalid input for multiple phoneNumber', function(done) {
-      const element = render(
-        <PhoneNumber
-      component={component}
-      value='999a'
-      attachToForm={attachToForm}
-        ></PhoneNumber>
-      ).find('input');
-      expect(element.attr('value')).to.equal('(999) ___-____');
-      done();
-    });
-
     it('Adds and removes rows', function(done) {
-      component.defaultValue = '(919) 999-9999';
       const element = mount(
-        <PhoneNumber
-      name="phoneNumber"
+        <Email
+      name="email"
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
-      ).find('.form-field-type-phoneNumber');
+        ></Email>
+      ).find('.form-field-type-email');
       const table = element.find('table');
       table.find('a.btn.add-row').simulate('click');
       expect(table.find('tr').length).to.equal(3);
@@ -372,43 +334,43 @@ describe('phoneNumber', function () {
       done();
     })
 
-    it('Check multiple phoneNumber with required', function(done) {
+    it('Check multiple email with required', function(done) {
       component.validate.required = true;
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       );
       expect(element.find('.formio-component-multiple label ').attr('class')).to.equal('control-label field-required');
       done();
     });
 
-    it('Check multiple phoneNumber without required', function(done) {
+    it('Check multiple email without required', function(done) {
       component.validate.required = false;
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       );
       expect(element.find('.formio-component-multiple label ').attr('class')).to.equal('control-label');
       component.validate.required = true;
       done();
     });
 
-    it('Check multiple phoneNumber without label', function(done) {
+    it('Check multiple email without label', function(done) {
       component.label = '';
       const element = render(
-        <PhoneNumber
+        <Email
       component={component}
       attachToForm={attachToForm}
-        ></PhoneNumber>
+        ></Email>
       );
       expect(element.find('.formio-component-multiple label').length).to.equal(0);
       done();
     });
-
   });
 
 });
+
