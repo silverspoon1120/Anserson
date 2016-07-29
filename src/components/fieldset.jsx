@@ -5,9 +5,8 @@ module.exports = React.createClass({
   displayName: 'Fieldset',
   render: function() {
     var legend = (this.props.component.legend ? <legend>{this.props.component.legend}</legend> : '');
-    var className = (this.props.component.customClass) ? this.props.component.customClass : '';
     return (
-      <fieldset className={className}>
+      <fieldset>
         {legend}
         <FormioComponents
           {...this.props}
