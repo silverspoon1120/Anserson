@@ -11,12 +11,11 @@ module.exports = React.createClass({
   },
   getSingleElement: function(value, index) {
     index = index || 0;
-    var radioClass = (this.props.component.inline ? 'radio-inline' : 'radio');
     return (
       <div className="radio-wrapper">
         {this.props.component.values.map(function(v, id) {
           return (
-            <div key={id} className={radioClass}>
+            <div key={id} className="radio">
               <label className="control-label">
                 <input
                   type={this.props.component.inputType}
