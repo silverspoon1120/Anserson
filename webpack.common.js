@@ -52,6 +52,9 @@ module.exports = {
         },
         sourceMap: false
       }),
-    ]
+    ],
+    noParse: [
+      /node_modules\/formiojs\//,
+    ],
   }
 };
