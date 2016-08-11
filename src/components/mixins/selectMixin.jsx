@@ -126,6 +126,7 @@ module.exports = {
             data={this.state.selectItems}
             valueField={this.valueField()}
             textField={this.textField()}
+            suggest={true}
             filter={filter}
             value={this.state.value}
             searchTerm={this.state.searchTerm}
