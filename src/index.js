@@ -5,5 +5,3 @@ export * from './factories';
 export * from './providers';
 export * from './reducers';
 export * from './util';
-
-export const example = 'this';
