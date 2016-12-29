@@ -18,22 +18,25 @@ module.exports = {
   willReceiveProps: function(nextProps) {
     if (this.props.component.refreshOn && !nextProps.formPristine) {
       const refreshOn = this.props.component.refreshOn;
-      this.refresh = false;
+      let refresh = false;
       if (refreshOn === 'data') {
         if (!_.isEqual(this.data, nextProps.data)) {
-          this.refresh = true;
+          refresh = true;
         }
       }
       else {
         if ((!this.data.hasOwnProperty(refreshOn) && nextProps.hasOwnProperty(refreshOn)) || this.data[refreshOn] !== nextProps.data[refreshOn]) {
-          this.refresh = true;
+          refresh = true;
         }
-        else if (nextProps && nextProps.row.hasOwnProperty(refreshOn) && this.props.row[refreshOn] !== nextProps.row[refreshOn]) {
-          this.refresh = true;
+        else if (this.props.row && this.props.row.hasOwnProperty(refreshOn) && this.props.row[refreshOn] !== nextProps.row[refreshOn]) {
+          refresh = true;
         }
       }
-      if (this.refresh && this.props.component.clearOnRefresh) {
+      if (refresh && this.props.component.clearOnRefresh) {
         this.setValue(this.getDefaultValue());
+      }
+      if (refresh) {
+        this.refreshItems();
       }
     }
     this.data = {...nextProps.data};
@@ -121,10 +124,6 @@ module.exports = {
     };
   },
   getElements: function() {
-    if (this.refresh) {
-      this.refreshItems();
-      this.refresh = false;
-    }
     var Element;
     var properties = {
       data: this.state.selectItems.filter(value => {
