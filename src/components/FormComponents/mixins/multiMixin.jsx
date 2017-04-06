@@ -1,5 +1,5 @@
 import React from 'react';
-import clone from 'lodash/clone';
+import { clone } from 'lodash';
 
 module.exports = {
   addFieldValue: function() {
