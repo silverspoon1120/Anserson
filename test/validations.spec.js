@@ -131,7 +131,6 @@ describe('Validations @validations', function () {
       />
     );
     element.find('input').simulate('change', {target: {value: 'My Value'}});
-    element.find('input').simulate('blur');
     expect(element.state('isValid')).to.equal(true);
     done();
   });
@@ -176,10 +175,8 @@ describe('Validations @validations', function () {
       />
     );
     element.find('input').simulate('change', {target: {value: 'My Value'}});
-    element.find('input').simulate('blur');
     expect(element.state('isValid')).to.equal(true);
     element.find('input').simulate('change', {target: {value: ''}});
-    element.find('input').simulate('blur');
     expect(element.state('isValid')).to.equal(false);
     done();
   });
@@ -315,7 +312,6 @@ describe('Validations @validations', function () {
     );
     expect(element.state('isValid')).to.equal(false);
     element.find('input').simulate('change', {target: {value: 'My Value'}});
-    element.find('input').simulate('blur');
     expect(element.state('isValid')).to.equal(true);
     done();
   });
@@ -409,10 +405,8 @@ describe('Validations @validations', function () {
     expect(element.state('isValid')).to.equal(false);
     const textfield = element.find('input[type="text"]');
     textfield.simulate('change', {target: {value: 'My Value'}});
-    textfield.simulate('blur');
     expect(element.state('isValid')).to.equal(true);
     checkbox.simulate('change', {target: {"checked": false}});
-    textfield.simulate('blur');
     expect(element.state('isValid')).to.equal(true);
     done();
   });
@@ -481,10 +475,8 @@ describe('Validations @validations', function () {
     );
     expect(element.state('isValid')).to.equal(false);
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(true);
     element.find('input[type="text"]').simulate('change', {target: {value: ''}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(false);
     element.find('.datagrid-table .btn').simulate('click');
     expect(element.state('isValid')).to.equal(true);
@@ -582,10 +574,8 @@ describe('Validations @validations', function () {
     checkbox.simulate('change', {target: {"checked": true}});
     expect(element.state('isValid')).to.equal(false);
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(true);
     element.find('input[type="text"]').simulate('change', {target: {value: ''}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(false);
     checkbox.simulate('change', {target: {"checked": false}});
     expect(element.state('isValid')).to.equal(true);
@@ -717,10 +707,8 @@ describe('Validations @validations', function () {
     element.find('.rw-list li').at(0).simulate('click');
     expect(element.state('isValid')).to.equal(false);
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(true);
     element.find('input[type="text"]').simulate('change', {target: {value: ''}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(false);
     element.find('.rw-i-caret-down').simulate('click');
     element.find('.rw-list li').at(1).simulate('click');
@@ -857,10 +845,8 @@ describe('Validations @validations', function () {
     element.find('.rw-list li').at(0).simulate('click');
     expect(element.state('isValid')).to.equal(false);
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(true);
     element.find('input[type="text"]').simulate('change', {target: {value: ''}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(false);
     element.find('.rw-i-caret-down').simulate('click');
     element.find('.rw-list li').at(1).simulate('click');
@@ -961,10 +947,8 @@ describe('Validations @validations', function () {
     checkbox.simulate('change', {target: {"checked": true}});
     expect(element.state('isValid')).to.equal(false);
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(true);
     element.find('input[type="text"]').simulate('change', {target: {value: ''}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(false);
     checkbox.simulate('change', {target: {"checked": false}});
     expect(element.state('isValid')).to.equal(true);
@@ -1063,10 +1047,8 @@ describe('Validations @validations', function () {
     checkbox.simulate('change', {target: {"checked": true}});
     expect(element.state('isValid')).to.equal(false);
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(true);
     element.find('input[type="text"]').simulate('change', {target: {value: ''}});
-    element.find('input[type="text"]').simulate('blur');
     expect(element.state('isValid')).to.equal(false);
     checkbox.simulate('change', {target: {"checked": false}});
     expect(element.state('isValid')).to.equal(true);

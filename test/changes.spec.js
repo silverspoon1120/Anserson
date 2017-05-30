@@ -48,10 +48,8 @@ describe('Change Events @change', function () {
     );
     expect(onChange.callCount).to.equal(1);
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(onChange.callCount).to.equal(2);
     element.find('input[type="text"]').simulate('change', {target: {value: ''}});
-    element.find('input[type="text"]').simulate('blur');
     expect(onChange.callCount).to.equal(3);
     done();
   });
@@ -100,10 +98,8 @@ describe('Change Events @change', function () {
     );
     expect(onChange.callCount).to.equal(0);
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(onChange.callCount).to.equal(1);
     element.find('input[type="text"]').simulate('change', {target: {value: ''}});
-    element.find('input[type="text"]').simulate('blur');
     expect(onChange.callCount).to.equal(2);
     done();
   });
@@ -179,10 +175,8 @@ describe('Change Events @change', function () {
     checkbox.simulate('change', {target: {"checked": true}});
     expect(onChange.callCount).to.equal(3);
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(onChange.callCount).to.equal(4);
     element.find('input[type="text"]').simulate('change', {target: {value: ''}});
-    element.find('input[type="text"]').simulate('blur');
     expect(onChange.callCount).to.equal(5);
     checkbox.simulate('change', {target: {"checked": false}});
     expect(onChange.callCount).to.equal(7);
@@ -261,10 +255,8 @@ describe('Change Events @change', function () {
     checkbox.simulate('change', {target: {"checked": true}});
     expect(onChange.callCount).to.equal(1);
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(onChange.callCount).to.equal(2);
     element.find('input[type="text"]').simulate('change', {target: {value: ''}});
-    element.find('input[type="text"]').simulate('blur');
     expect(onChange.callCount).to.equal(3);
     checkbox.simulate('change', {target: {"checked": false}});
     expect(onChange.callCount).to.equal(5);
@@ -345,7 +337,6 @@ describe('Change Events @change', function () {
     expect(onChange.callCount).to.equal(3);
     expect(onChange.calledWith({data: {visible: true, textfield: ''}})).to.equal(true);
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(onChange.callCount).to.equal(4);
     expect(onChange.calledWith({data: {visible: true, textfield: 'My Value'}})).to.equal(true);
     checkbox.simulate('change', {target: {"checked": false}});
@@ -516,7 +507,6 @@ describe('Change Events @change', function () {
     expect(onChange.calledWith({data: {visible: false}})).to.equal(true);
     checkbox.simulate('change', {target: {"checked": true}});
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(onChange.callCount).to.equal(6);
     expect(onChange.calledWith({data: {visible: true, textfield: 'My Value'}})).to.equal(true);
     checkbox.simulate('change', {target: {"checked": false}});
@@ -619,7 +609,6 @@ describe('Change Events @change', function () {
     expect(onChange.calledWith({data: {visible: false}})).to.equal(true);
     checkbox.simulate('change', {target: {"checked": true}});
     element.find('input[type="text"]').simulate('change', {target: {value: 'My Value'}});
-    element.find('input[type="text"]').simulate('blur');
     expect(onChange.callCount).to.equal(8);
     expect(onChange.calledWith({data: {visible: true, textfield: 'My Value'}})).to.equal(true);
     checkbox.simulate('change', {target: {"checked": false}});
