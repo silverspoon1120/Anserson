@@ -14,6 +14,7 @@
     "require": true,
     "module": true,
     "global": true,
-    "fetch": true
+    "fetch": true,
+    "FormioComponents": true
   }
 }
