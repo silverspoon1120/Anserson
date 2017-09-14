@@ -53,10 +53,12 @@ export class Formio extends Component {
   };
 
   initializeFormio = () => {
+    const {submission} = this.props;
+
     if (this.createPromise) {
       this.createPromise.then(() => {
-        if (this.props.submission) {
-          this.formio.submission = this.props.submission;
+        if (submission) {
+          this.formio.submission = submission;
         }
         //this.formio.hideComponents([]); (From Components.js)
         this.formio.on('prevPage', this.emit('onPrevPage'));
@@ -89,7 +91,7 @@ export class Formio extends Component {
       this.initializeFormio();
     }
 
-    if (submission !== nextProps.submission && this.formio) {
+    if (submission !== nextProps.submission) {
       this.formio.submission = nextProps.submission;
     }
   };
