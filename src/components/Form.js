@@ -1,12 +1,15 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import EventEmitter from 'eventemitter2';
 import AllComponents from 'formiojs/components';
 import Components from 'formiojs/components/Components';
 Components.setComponents(AllComponents);
-import FormioForm from 'formiojs/Form';
+import Form from 'formiojs/Form';
 
-export default class Form extends Component {
+export default class extends Component {
+  static defaultProps = {
+    options: {}
+  };
+
   static propTypes = {
     src: PropTypes.string,
     url: PropTypes.string,
@@ -17,6 +20,7 @@ export default class Form extends Component {
       noAlerts: PropTypes.boolean,
       i18n: PropTypes.object,
       template: PropTypes.string,
+      templates: PropTypes.any,
     }),
     onPrevPage: PropTypes.func,
     onNextPage: PropTypes.func,
@@ -29,35 +33,22 @@ export default class Form extends Component {
     onRender: PropTypes.func
   };
 
-  static getDefaultEmitter() {
-    return new EventEmitter({
-      wildcard: false,
-      maxListeners: 0
-    });
-  }
-
   componentDidMount = () => {
-    const {options = {}, src, url, form} = this.props;
-
-    if (!options.events) {
-      options.events = Form.getDefaultEmitter();
-    }
+    const {options, src, url, form} = this.props;
 
     if (src) {
-      this.createPromise = new FormioForm(this.element, src, options).render().then(formio => {
+      this.createPromise = new Form(this.element, src, options).then(formio => {
         this.formio = formio;
         this.formio.src = src;
       });
     }
     if (form) {
-      this.createPromise = new FormioForm(this.element, form, options).render().then(formio => {
+      this.createPromise = new Form(this.element, form, options).then(formio => {
         this.formio = formio;
         this.formio.form = form;
         if (url) {
           this.formio.url = url;
         }
-
-        return this.formio;
       });
     }
 
@@ -91,21 +82,17 @@ export default class Form extends Component {
   };
 
   componentWillReceiveProps = (nextProps) => {
-    const {options = {}, src, form, submission} = this.props;
-
-    if (!options.events) {
-      options.events = Form.getDefaultEmitter();
-    }
+    const {options, src, form, submission} = this.props;
 
     if (src !== nextProps.src) {
-      this.createPromise = new FormioForm(this.element, nextProps.src, options).render().then(formio => {
+      this.createPromise = new Form(this.element, nextProps.src, options).then(formio => {
         this.formio = formio;
         this.formio.src = nextProps.src;
       });
       this.initializeFormio();
     }
     if (form !== nextProps.form) {
-      this.createPromise = new FormioForm(this.element, nextProps.form, options).render().then(formio => {
+      this.createPromise = new Form(this.element, nextProps.form, options).then(formio => {
         this.formio = formio;
         this.formio.form = form;
       });
