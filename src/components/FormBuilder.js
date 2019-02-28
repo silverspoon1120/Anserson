@@ -21,7 +21,7 @@ export default class extends Component {
   };
 
   componentDidMount = () => {
-    this.initializeBuilder(this.props);
+    this.initializeBuilder();
   };
 
   componentWillUnmount = () => {
@@ -30,12 +30,9 @@ export default class extends Component {
     }
   };
 
-  initializeBuilder = (props) => {
-    const {options, form} = props;
+  initializeBuilder = () => {
+    const {options, form} = this.props;
 
-    if (this.builder !== undefined) {
-      this.builder.instance.destroy(true);
-    }
     this.builder = new FormBuilder(this.element, form, options);
     this.builderReady = this.builder.setDisplay(form.display);
 
@@ -55,11 +52,11 @@ export default class extends Component {
     const {options, form} = this.props;
 
     if (form !== nextProps.form) {
-      this.initializeBuilder(nextProps);
+      this.initializeBuilder();
     }
 
     if (options !== nextProps.options) {
-      this.initializeBuilder(nextProps);
+      this.initializeBuilder();
     }
   };
 

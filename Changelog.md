@@ -4,9 +4,22 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
-## 4.0.0
+## 3.0.5
+### Changed 
+ - Update Formio verison
+ 
+### Fixed
+ - Event emitter cross polinating between forms.
+ - Proptypes of formprovider
+
+## 3.0.3
 ### Changed
- - Upgrade formio.js to 4.x branch to enable templating.
+ - Integration tests fixed.
+ - react/react-dom dependencies updated to version 16.
+
+## 3.0.2
+### Changed
+ - Formio component renamed to Form.
 
 ## 3.0.1
 ### Added
