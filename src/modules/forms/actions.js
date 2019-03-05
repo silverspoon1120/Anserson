@@ -9,10 +9,11 @@ function reset(name) {
   };
 }
 
-function requestForms(name) {
+function requestForms(name, page) {
   return {
     type: types.FORMS_REQUEST,
-    name
+    name,
+    page
   };
 }
 
@@ -32,7 +33,7 @@ function failForms(name, err) {
   };
 }
 
-export const indexForms = (name, page = 1, params = {}) => {
+export const indexForms = (name, page = 1, params = {}, options) => {
   return (dispatch, getState) => {
     dispatch(requestForms(name, page));
     const forms = selectRoot('forms', getState());
@@ -44,7 +45,7 @@ export const indexForms = (name, page = 1, params = {}) => {
       params.skip = ((parseInt(page) - 1) * parseInt(forms.limit));
       params.limit = parseInt(forms.limit);
     }
-    const formio = new Formiojs(Formiojs.getProjectUrl() + '/form');
+    const formio = new Formiojs(options.project + '/form');
 
     return formio.loadForms({params})
       .then((result) => {

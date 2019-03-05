@@ -30,8 +30,8 @@ const formAccessUser = formAccess => ({
   formAccess
 });
 
-const getAccess = (dispatch) => {
-  formiojs.makeStaticRequest(formiojs.getProjectUrl() + '/access')
+const getAccess = (dispatch, projectUrl) => {
+  formiojs.makeStaticRequest(projectUrl + '/access')
     .then(function(result) {
       let submissionAccess = {};
       Object.keys(result.forms).forEach(key => {
@@ -46,7 +46,7 @@ const getAccess = (dispatch) => {
     .catch(function(err) {
       //console.error(err);
     });
-  formiojs.makeStaticRequest(formiojs.getProjectUrl())
+  formiojs.makeStaticRequest(projectUrl)
     .then(function(project) {
       let formAccess = {};
       project.access.forEach(access => {
@@ -59,7 +59,7 @@ const getAccess = (dispatch) => {
     });
 };
 
-export const initAuth = () => {
+export const initAuth = (options) => {
   return (dispatch) => {
     dispatch(requestUser());
 
@@ -67,7 +67,7 @@ export const initAuth = () => {
       .then(user => {
         if (user) {
           dispatch(receiveUser(user));
-          getAccess(dispatch);
+          getAccess(dispatch, options.project);
         }
       })
       .catch(result => {
@@ -76,20 +76,20 @@ export const initAuth = () => {
   };
 };
 
-export const setUser = (user, ) => {
+export const setUser = (user, options) => {
   formiojs.setUser(user);
   return (dispatch) => {
     dispatch(receiveUser(user));
-    getAccess(dispatch);
+    getAccess(dispatch, options.project);
   };
 };
 
-export const logout = () => {
+export const logout = (options) => {
   return (dispatch, getState) => {
     formiojs.logout()
       .then(() => {
         dispatch(logoutUser());
-        getAccess(dispatch);
+        getAccess(dispatch, options.project);
       });
   };
 };

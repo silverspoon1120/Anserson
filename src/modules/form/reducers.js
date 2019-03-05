@@ -6,7 +6,6 @@ export function form(config) {
     isActive: false,
     lastUpdated: 0,
     form: {},
-    url: '',
     error: ''
   };
 
@@ -21,7 +20,6 @@ export function form(config) {
           ...state,
           isActive: true,
           id: action.id,
-          url: action.url,
           error: ''
         };
       case types.FORM_SUCCESS:
@@ -30,7 +28,6 @@ export function form(config) {
           id: action.form._id,
           form: action.form,
           isActive: false,
-          url: action.url || state.url,
           error: ''
         };
       case types.FORM_FAILURE:
