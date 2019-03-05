@@ -3,11 +3,13 @@ import * as types from './constants';
 export function submissions(config) {
   const initialState = {
     formId: '',
-    isFetching: false,
+    isActive: false,
     lastUpdated: 0,
     submissions: [],
     limit: 10,
-    page: 0,
+    pagination: {
+      page: 1
+    },
     error: ''
   };
 
@@ -24,22 +26,31 @@ export function submissions(config) {
           ...state,
           formId: action.formId,
           limit: action.limit || state.limit,
-          isFetching: true,
+          isActive: true,
           submissions: [],
-          page: action.page,
+          pagination: {
+            page: action.page || state.pagination.page,
+            numPages: action.numPages || state.pagination.numPages,
+            total: action.total || state.pagination.total
+          },
           error: ''
         };
       case types.SUBMISSIONS_SUCCESS:
         return {
           ...state,
           submissions: action.submissions,
-          isFetching: false,
+          pagination: {
+            page: state.pagination.page,
+            numPages: Math.ceil((action.submissions.serverCount || state.pagination.total) / state.limit),
+            total: action.submissions.serverCount || state.pagination.total
+          },
+          isActive: false,
           error: ''
         };
       case types.SUBMISSIONS_FAILURE:
         return {
           ...state,
-          isFetching: false,
+          isActive: false,
           error: action.error
         };
       default:

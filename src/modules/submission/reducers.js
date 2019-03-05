@@ -4,9 +4,10 @@ export function submission(config) {
   const initialState = {
     formId: '',
     id: '',
-    isFetching: false,
+    isActive: false,
     lastUpdated: 0,
     submission: {},
+    url: '',
     error: ''
   };
 
@@ -21,29 +22,31 @@ export function submission(config) {
           ...state,
           formId: action.formId,
           id: action.id,
+          url: action.url,
           submission: {},
-          isFetching: true,
+          isActive: true,
         };
       case types.SUBMISSION_SAVE:
         return {
           ...state,
           formId: action.formId,
           id: action.id,
+          url: action.url || state.url,
           submission: {},
-          isFetching: true,
+          isActive: true,
         };
       case types.SUBMISSION_SUCCESS:
         return {
           ...state,
           id: action.submission._id,
           submission: action.submission,
-          isFetching: false,
+          isActive: false,
           error: ''
         };
       case types.SUBMISSION_FAILURE:
         return {
           ...state,
-          isFetching: false,
+          isActive: false,
           isInvalid: true,
           error: action.error
         };
