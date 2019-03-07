@@ -15,28 +15,23 @@ export default class extends Component {
   constructor(props) {
     super(props);
 
-    const {form} = props;
-
     this.state = {
-      form: form
-        ? _cloneDeep(form)
-        : {
-          title: '',
-          name: '',
-          path: '',
-          display: 'form',
-          components: [],
-        },
+      form: {
+        title: '',
+        name: '',
+        path: '',
+        display: 'form',
+        components: []
+      }
     };
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
     if (nextProps.form && (prevState.form._id !== nextProps.form._id || prevState.form.modified !== nextProps.form.modified)) {
       return {
-        form: _cloneDeep(nextProps.form),
+        form: _cloneDeep(nextProps.form)
       };
     }
-
     return null;
   }
 
