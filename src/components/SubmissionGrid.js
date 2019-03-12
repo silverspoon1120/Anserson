@@ -6,17 +6,8 @@ import _get from 'lodash/get';
 import Grid from './Grid';
 
 export default class extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      page: props.pagination.page,
-      query: props.query
-    };
-  }
-
   static propTypes = {
-    submissions: PropTypes.object.isRequired,
+    submissions: PropTypes.array.isRequired,
     form: PropTypes.object.isRequired,
     query: PropTypes.object,
     onAction: PropTypes.func,
@@ -24,66 +15,8 @@ export default class extends Component {
   };
 
   static defaultProps = {
-    pagination: {
-      page: 1,
-      numPages: 1,
-      total: 1
-    },
-    onAction: () => {},
-    onSort: () => {},
-    onPage: () => {},
-    getSubmissions: () => {},
-    query: {
-      sort: ''
-    }
-  };
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    if (nextProps.query !== prevState.query) {
-      return {
-        query: nextProps.query
-      };
-    }
-
-    return null;
+    onRowClick: () => {}
   }
-
-  onPage = (page) => {
-    this.setState(prevState => {
-      prevState.page = page;
-      return prevState;
-    }, () => this.props.getSubmissions(this.state.page, this.state.query));
-  };
-
-  onSort = (field) => {
-    if (!this.state.query.sort) {
-      this.setState(prevState => {
-        prevState.query.sort = field;
-        return prevState;
-      }, () => this.props.getSubmissions(this.state.page, this.state.query));
-    }
-    const currentSort = this.state.query.sort[0] === '-'
-      ? this.state.query.sort.slice(1, this.state.query.sort.length)
-      : this.state.query.sort;
-    if (currentSort !== field) {
-      this.setState(prevState => {
-        prevState.query.sort = field;
-        return prevState;
-      }, () => this.props.getSubmissions(this.state.page, this.state.query));
-    }
-    else if (this.state.query.sort[0] !== '-') {
-      this.setState(prevState => {
-        prevState.query.sort = '-' + field;
-        return prevState;
-      }, () => this.props.getSubmissions(this.state.page, this.state.query));
-    }
-    else {
-      this.setState(prevState => {
-        prevState.query.sort = '';
-        return prevState;
-      }, () => this.props.getSubmissions(this.state.page, this.state.query));
-    }
-  };
 
   getColumns = () => {
     let columns = [];
@@ -92,7 +25,7 @@ export default class extends Component {
         columns.push({
           key: 'data.' + component.key,
           title: component.label || component.title || component.key,
-          sort: true,
+          sort: '',
           component: Components.create(component, null, null, true)
         });
       }
@@ -128,30 +61,27 @@ export default class extends Component {
     else {
       return <span>{cellValue}</span>;
     }
-  };
+  }
 
   render = () => {
-    const {submissions: {submissions, limit, pagination}, onAction} = this.props;
+    const {submissions, onAction, onSort, onPage, page, limit, sortOrder} = this.props;
     const columns = this.getColumns();
     const columnWidths = this.calculateWidths(columns.length);
-    const skip = (parseInt(this.state.page) - 1) * parseInt(limit);
-    const last = skip + parseInt(limit) > pagination.total ? pagination.total : skip + parseInt(limit);
-    const sortOrder = this.state.query.sort;
 
     return (
       <Grid
         items={submissions}
         columns={columns}
         columnWidths={columnWidths}
+        onSort={onSort}
         onAction={onAction}
-        onSort={this.onSort}
-        onPage={this.onPage}
+        onPage={onPage}
         sortOrder={sortOrder}
-        activePage={pagination.page}
-        firstItem={skip + 1}
-        lastItem={last}
-        total={parseInt(pagination.total)}
-        pages={Math.ceil(parseInt(pagination.total) / limit)}
+        activePage={page + 1}
+        firstItem={parseInt(submissions.skip) + 1}
+        lastItem={parseInt(submissions.skip) + parseInt(submissions.limit)}
+        total={parseInt(submissions.serverCount)}
+        pages={Math.ceil(submissions.serverCount / limit)}
         emptyText='No data found'
         Cell={this.Cell}
       />

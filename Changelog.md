@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## 4.0.1
+### Changed
+ - Merged changes from 3.x branch.
+
+## 4.0.0
+### Changed
+ - Upgrade formio.js to 4.x branch to enable templating.
+ - Refactor of modules and new components.
+
 ## 3.1.9
 ### Changed
  - FormGrid title links from a to span to remove weirdness with router.
@@ -91,6 +100,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 ## 3.0.2
 ### Changed
  - Formio component renamed to Form.
+>>>>>>> origin/3.x
 
 ## 3.0.1
 ### Added
