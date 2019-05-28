@@ -2,41 +2,46 @@ import Formiojs from 'formiojs/Formio';
 import * as types from './constants';
 import {selectForm} from './selectors';
 
-export const clearFormError = (name) => ({
-  type: types.FORM_CLEAR_ERROR,
-  name,
-});
+function requestForm(name, id, url) {
+  return {
+    type: types.FORM_REQUEST,
+    name,
+    id,
+    url
+  };
+}
 
-const requestForm = (name, id, url) => ({
-  type: types.FORM_REQUEST,
-  name,
-  id,
-  url,
-});
+function receiveForm(name, form, url) {
+  return {
+    type: types.FORM_SUCCESS,
+    form,
+    name,
+    url
+  };
+}
 
-const receiveForm = (name, form, url) => ({
-  type: types.FORM_SUCCESS,
-  form,
-  name,
-  url,
-});
+function failForm(name, err) {
+  return {
+    type: types.FORM_FAILURE,
+    error: err,
+    name
+  };
+}
 
-const failForm = (name, err) => ({
-  type: types.FORM_FAILURE,
-  error: err,
-  name,
-});
+function reset(name) {
+  return {
+    type: types.FORM_RESET,
+    name
+  };
+}
 
-export const resetForm = (name) => ({
-  type: types.FORM_RESET,
-  name,
-});
-
-const sendForm = (name, form) => ({
-  type: types.FORM_SAVE,
-  form,
-  name,
-});
+function sendForm(name, form) {
+  return {
+    type: types.FORM_SAVE,
+    form,
+    name
+  };
+}
 
 export const getForm = (name, id = '', done = () => {}) => {
   return (dispatch, getState) => {
@@ -100,3 +105,8 @@ export const deleteForm = (name, id, done = () => {}) => {
       });
   };
 };
+
+export const resetForm = (name) => {
+  return (dispatch) => dispatch(reset(name));
+};
+

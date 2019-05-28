@@ -16,11 +16,6 @@ export function form(config) {
       return state;
     }
     switch (action.type) {
-      case types.FORM_CLEAR_ERROR:
-        return {
-          ...state,
-          error: '',
-        };
       case types.FORM_REQUEST:
         return {
           ...state,
