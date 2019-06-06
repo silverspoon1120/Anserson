@@ -91,7 +91,7 @@ export const deleteForm = (name, id, done = () => {}) => {
 
     return formio.deleteForm()
       .then(() => {
-        dispatch(resetForm(name));
+        dispatch(reset(name));
         done();
       })
       .catch((result) => {

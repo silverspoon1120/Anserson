@@ -1,41 +1,46 @@
 import Formiojs from 'formiojs/Formio';
 import * as types from './constants';
 
-export const clearSubmissionError = (name) => ({
-  type: types.SUBMISSION_CLEAR_ERROR,
-  name,
-});
+function requestSubmission(name, id, formId,  url) {
+  return {
+    name,
+    type: types.SUBMISSION_REQUEST,
+    id,
+    formId,
+    url
+  };
+}
 
-const requestSubmission = (name, id, formId,  url) => ({
-  name,
-  type: types.SUBMISSION_REQUEST,
-  id,
-  formId,
-  url
-});
+function sendSubmission(name, data) {
+  return {
+    name,
+    type: types.SUBMISSION_SAVE
+  };
+}
 
-const sendSubmission = (name, data) => ({
-  name,
-  type: types.SUBMISSION_SAVE
-});
+function receiveSubmission(name, submission, url) {
+  return {
+    type: types.SUBMISSION_SUCCESS,
+    name,
+    submission,
+    url
+  };
+}
 
-const receiveSubmission = (name, submission, url) => ({
-  type: types.SUBMISSION_SUCCESS,
-  name,
-  submission,
-  url
-});
+function failSubmission(name, err) {
+  return {
+    type: types.SUBMISSION_FAILURE,
+    name,
+    error: err
+  };
+}
 
-const failSubmission = (name, err) => ({
-  type: types.SUBMISSION_FAILURE,
-  name,
-  error: err
-});
-
-export const resetSubmission = (name) => ({
-  type: types.SUBMISSION_RESET,
-  name
-});
+function reset(name) {
+  return {
+    type: types.SUBMISSION_RESET,
+    name
+  };
+}
 
 export const getSubmission = (name, id, formId, done = () => {}) => {
   return (dispatch, getState) => {
@@ -89,7 +94,7 @@ export const deleteSubmission = (name, id, formId, done = () => {}) => {
 
     return formio.deleteSubmission()
       .then(() => {
-        dispatch(resetSubmission(name));
+        dispatch(reset(name));
         done();
       })
       .catch((result) => {
@@ -97,4 +102,8 @@ export const deleteSubmission = (name, id, formId, done = () => {}) => {
         done(result);
       });
   };
+};
+
+export const resetSubmission = (name) => {
+  return dispatch => dispatch(reset(name));
 };
