@@ -13,8 +13,5 @@ export {
 };
 
 export * from './components';
-export * from './constants';
 export * from './modules';
-export * from './types';
-export * from './utils';
 export {Components, Formio, Utils} from 'formiojs';

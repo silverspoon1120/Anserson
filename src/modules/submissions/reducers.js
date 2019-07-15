@@ -1,76 +1,58 @@
-import _pick from 'lodash/pick';
-
 import * as types from './constants';
 
-export function submissions({
-  name,
-  limit = 10,
-  query = {},
-  select = '',
-  sort = '',
-}) {
+export function submissions(config) {
   const initialState = {
-    error: '',
     formId: '',
+    query: config.query || {},
     isActive: false,
-    limit,
-    pagination: {
-      numPages: 0,
-      page: 1,
-      total: 0,
-    },
-    query,
-    select,
-    sort,
+    lastUpdated: 0,
     submissions: [],
+    limit: 10,
+    pagination: {
+      page: 1
+    },
+    error: ''
   };
 
   return (state = initialState, action) => {
-    // Only proceed for this submissions.
-    if (action.name !== name) {
+    // Only proceed for this form.
+    if (action.name !== config.name) {
       return state;
     }
-
     switch (action.type) {
       case types.SUBMISSIONS_RESET:
         return initialState;
       case types.SUBMISSIONS_REQUEST:
         return {
           ...state,
-          ..._pick(action.params, [
-            'limit',
-            'query',
-            'select',
-            'sort',
-          ]),
-          error: '',
           formId: action.formId,
+          limit: action.limit || state.limit,
           isActive: true,
-          pagination: {
-            ...state.pagination,
-            page: action.page,
-          },
           submissions: [],
+          pagination: {
+            page: action.page || state.pagination.page,
+            numPages: action.numPages || state.pagination.numPages,
+            total: action.total || state.pagination.total
+          },
+          error: ''
         };
-      case types.SUBMISSIONS_SUCCESS: {
-        const total = action.submissions.serverCount;
-
+      case types.SUBMISSIONS_SUCCESS:
         return {
           ...state,
-          isActive: false,
-          pagination: {
-            ...state.pagination,
-            numPages: Math.ceil(total / state.limit),
-            total,
-          },
           submissions: action.submissions,
+          pagination: {
+            page: state.pagination.page,
+            numPages: Math.ceil((action.submissions.serverCount || state.pagination.total) / state.limit),
+            total: action.submissions.serverCount || state.pagination.total
+          },
+          isActive: false,
+          error: ''
         };
-      }
       case types.SUBMISSIONS_FAILURE:
         return {
           ...state,
-          error: action.error,
           isActive: false,
+          error: action.error
         };
       default:
         return state;

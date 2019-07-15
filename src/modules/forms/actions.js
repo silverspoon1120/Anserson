@@ -1,81 +1,68 @@
 import Formiojs from 'formiojs/Formio';
-
-import {selectRoot} from '../root';
-
 import * as types from './constants';
+import {selectRoot} from '../root/selectors';
 
 export const resetForms = (name) => ({
   type: types.FORMS_RESET,
   name,
 });
 
-const requestForms = (name, page, params) => ({
+const requestForms = (name, page, {
+  limit,
+  numPages,
+  total,
+}) => ({
   type: types.FORMS_REQUEST,
   name,
   page,
-  params,
+  limit,
+  numPages,
+  total,
 });
 
 const receiveForms = (name, forms) => ({
   type: types.FORMS_SUCCESS,
-  name,
   forms,
-});
-
-const failForms = (name, error) => ({
-  type: types.FORMS_FAILURE,
   name,
-  error,
 });
 
-export const indexForms = (name, page = 1, params = {}, done = () => {}) => (dispatch, getState) => {
-  dispatch(requestForms(name, page, params));
+const failForms = (name, err) => ({
+  type: types.FORMS_FAILURE,
+  error: err,
+  name,
+});
 
-  const {
-    limit,
-    query,
-    select,
-    sort,
-  } = selectRoot(name, getState());
-  const formio = new Formiojs(`${Formiojs.getProjectUrl()}/form`);
-  const requestParams = {...query};
+export const indexForms = (name, page = 1, params = {}) => {
+  return (dispatch, getState) => {
+    dispatch(requestForms(name, page, params));
+    const forms = selectRoot(name, getState());
 
-  // Ten is the default so if set to 10, don't send.
-  if (limit !== 10) {
-    requestParams.limit = limit;
-  }
-  else {
-    delete requestParams.limit;
-  }
+    // Ten is the default so if set to 10, don't send.
+    if (parseInt(forms.limit) !== 10) {
+      params.limit = forms.limit;
+    }
+    else {
+      delete params.limit;
+    }
 
-  if (page !== 1) {
-    requestParams.skip = (page - 1) * limit;
-  }
-  else {
-    delete requestParams.skip;
-  }
+    if (page !== 1) {
+      params.skip = ((parseInt(page) - 1) * parseInt(forms.limit));
+    }
+    else {
+      delete params.skip;
+    }
 
-  if (select) {
-    requestParams.select = select;
-  }
-  else {
-    delete requestParams.select;
-  }
+    // Apply default query
+    params = {...forms.query, ...params};
 
-  if (sort) {
-    requestParams.sort = sort;
-  }
-  else {
-    delete requestParams.sort;
-  }
+    const formio = new Formiojs(Formiojs.getProjectUrl() + '/form');
 
-  return formio.loadForms({params: requestParams})
-    .then((result) => {
-      dispatch(receiveForms(name, result));
-      done(null, result);
-    })
-    .catch((error) => {
-      dispatch(failForms(name, error));
-      done(error);
-    });
+    return formio.loadForms({params})
+      .then((result) => {
+        dispatch(receiveForms(name, result));
+      })
+      .catch((result) => {
+        dispatch(failForms(name, result));
+      });
+  };
 };
