@@ -33,9 +33,7 @@ export default class FormBuilder extends Component {
   };
 
   initializeBuilder = (props) => {
-    const options = Object.assign({}, props.options);
-    const form = Object.assign({}, props.form);
-    const Builder = props.Builder;
+    const {options, form, Builder} = props;
 
     if (this.builder !== undefined) {
       this.builder.instance.destroy(true);
