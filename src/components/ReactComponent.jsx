@@ -10,7 +10,6 @@ export default class ReactComponent extends Field {
    */
   constructor(component, options, data) {
     super(component, options, data);
-    this.reactInstance = null;
   }
 
   /**
@@ -42,15 +41,6 @@ export default class ReactComponent extends Field {
   }
 
   /**
-   * Callback ref to store a reference to the node.
-   *
-   * @param element - the node
-   */
-  setReactInstance(element) {
-    this.reactInstance = element;
-  }
-
-  /**
    * The third phase of component building where the component has been attached to the DOM as 'element' and is ready
    * to have its javascript events attached.
    *
@@ -67,7 +57,7 @@ export default class ReactComponent extends Field {
     });
 
     if (this.refs[`react-${this.id}`]) {
-      this.attachReact(this.refs[`react-${this.id}`], this.setReactInstance.bind(this));
+      this.reactInstance = this.attachReact(this.refs[`react-${this.id}`]);
       if (this.shouldSetValue) {
         this.setValue(this.dataForSetting);
         this.updateValue(this.dataForSetting);
@@ -91,9 +81,8 @@ export default class ReactComponent extends Field {
    * Override this function to insert your custom component.
    *
    * @param element
-   * @param ref - callback ref
    */
-  attachReact(element, ref) {
+  attachReact(element) {
     return;
   }
 
