@@ -9,7 +9,13 @@ const reducer = (form, {type, value}) => {
   const formCopy = _cloneDeep(form);
   switch (type) {
     case 'formChange':
-      return {...form, ...value};
+      for (let prop in value) {
+        // eslint-disable-next-line no-prototype-builtins
+        if (value.hasOwnProperty(prop)) {
+          form[prop] = value[prop];
+        }
+      }
+      return form;
     case 'replaceForm':
       return _cloneDeep(value);
     case 'title':
@@ -18,6 +24,8 @@ const reducer = (form, {type, value}) => {
         formCopy.path = _camelCase(value).toLowerCase();
       }
       break;
+    default:
+      return form;
   }
   _set(formCopy, type, value);
   return formCopy;
