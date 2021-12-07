@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState, useCallback, useLayoutEffect} from 'react';
 import PropTypes from 'prop-types';
-import {FormBuilder as FormioFormBuilder} from 'formiojs';
+import {Formio} from 'formiojs';
+const FormioFormBuilder = Formio.Builder;
 
 const FormBuilder = (props) => {
   const builderRef = useRef();
