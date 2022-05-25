@@ -25,9 +25,6 @@ export const getComponentDefaultColumn = (component) => ({
   },
 });
 
-/**
- * @param {import('./types').Column[]} columns
- */
 export function setColumnsWidth(columns) {
   if (columns.length > 6) {
     columns.forEach((column) => {
@@ -46,10 +43,6 @@ export function setColumnsWidth(columns) {
   }
 }
 
-/**
- * @param {Function} fn
- * @returns {(function(*): void)|*}
- */
 export const stopPropagationWrapper = (fn) => (event) => {
   event.stopPropagation();
   fn();

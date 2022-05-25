@@ -5,10 +5,6 @@ import _isEqual from 'lodash/isEqual';
 import {Formio} from 'formiojs';
 const FormioForm = Formio.Form;
 
-/**
- * @param {FormProps} props
- * @returns {JSX.Element}
- */
  const Form = (props) => {
   let instance;
   let createPromise;
@@ -97,52 +93,17 @@ const FormioForm = Formio.Form;
   return <div ref={el => element = el} />;
 };
 
-/**
- * @typedef {object} Options
- * @property {boolean} [readOnly]
- * @property {boolean} [noAlerts]
- * @property {object} [i18n]
- * @property {string} [template]
- * @property {boolean} [saveDraft]
- */
-
-/**
- * @typedef {object} FormProps
- * @property {string} [src]
- * @property {string} [url]
- * @property {object} [form]
- * @property {object} [submission]
- * @property {Options} [options]
- * @property {function} [onPrevPage]
- * @property {function} [onNextPage]
- * @property {function} [onCancel]
- * @property {function} [onChange]
- * @property {function} [onCustomEvent]
- * @property {function} [onComponentChange]
- * @property {function} [onSubmit]
- * @property {function} [onSubmitDone]
- * @property {function} [onFormLoad]
- * @property {function} [onError]
- * @property {function} [onRender]
- * @property {function} [onAttach]
- * @property {function} [onBuild]
- * @property {function} [onFocus]
- * @property {function} [onBlur]
- * @property {function} [onInitialized]
- * @property {function} [formReady]
- * @property {any} [formioform]
- */
 Form.propTypes = {
   src: PropTypes.string,
   url: PropTypes.string,
   form: PropTypes.object,
   submission: PropTypes.object,
   options: PropTypes.shape({
-    readOnly: PropTypes.bool,
-    noAlerts: PropTypes.bool,
+    readOnly: PropTypes.boolean,
+    noAlerts: PropTypes.boolean,
     i18n: PropTypes.object,
     template: PropTypes.string,
-    saveDraft: PropTypes.bool,
+    saveDraft: PropTypes.boolean,
   }),
   onPrevPage: PropTypes.func,
   onNextPage: PropTypes.func,
