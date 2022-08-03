@@ -6,9 +6,10 @@
   "scripts": {
     "test": "karma start --single-run",
     "build": "babel ./src --ignore=*.spec.js --out-dir ./lib --presets es2015,react,stage-2",
+    "build-types": "npx tsc",
     "lint": "eslint src",
     "watch": "babel ./src --watch --ignore=*.spec.js --out-dir ./lib --presets es2015,react,stage-2",
-    "prepublish": "npm run lint && npm run build"
+    "prepublish": "npm run lint && npm run build && npm run build-types"
   },
   "repository": {
     "type": "git",
@@ -57,19 +58,20 @@
     "eslint-plugin-jsx-a11y": "^6.5.1",
     "eslint-plugin-mocha": "^9.0.0",
     "eslint-plugin-react": "^7.29.4",
-    "formiojs": "^4.14.6",
+    "formiojs": "^4.14.8",
     "jsdom": "^19.0.0",
     "karma": "^6.3.18",
     "karma-chrome-launcher": "^3.1.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-webpack": "^5.0.0",
-    "mocha": "^9.2.2",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
+    "mocha": "^9.1.3",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
     "react-test-renderer": "^17.0.2",
     "react-transform-catch-errors": "^1.0.0",
     "sinon": "^12.0.1",
+    "typescript": "^4.5.2",
     "webpack": "^5.65.0"
   },
   "files": [
@@ -77,7 +79,7 @@
   ],
   "peerDependencies": {
     "formiojs": "^4.12.4-rc.2",
-    "react": "^15.3.0 || ^16.0.0 || ^17.0.0",
-    "react-dom": "^15.3.0 || ^16.0.0 || ^17.0.0"
+    "react": "^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.1.0",
+    "react-dom": "^15.3.0 || ^16.0.0 || ^17.0.0 || ^18.1.0"
   }
 }
